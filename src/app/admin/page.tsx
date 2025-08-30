@@ -55,7 +55,7 @@ export default function AdminDashboard() {
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
                   <p className="mt-1 text-sm text-gray-600">
-                    Welcome back, {session.user?.name || session.user?.email}
+                    Welcome back, {user?.name || user?.email}
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">

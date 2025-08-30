@@ -3,6 +3,16 @@ import { z } from 'zod'
 import { supabaseAdmin } from '@/lib/supabase'
 import { requireAuth } from '@/lib/auth'
 import { checkRateLimit } from '@/lib/rate-limiter'
+import type { Database } from '@/lib/supabase/database.types'
+
+// Use the Database types directly
+type CartItem = Database['public']['Tables']['cart_items']['Row']
+type Product = Database['public']['Tables']['products']['Row']
+
+// Type for cart item with joined product
+type CartItemWithProduct = CartItem & {
+  products: Product
+}
 
 const cartItemSchema = z.object({
   productId: z.string().cuid(),
@@ -27,20 +37,8 @@ export async function GET(req: NextRequest) {
     const { data: cartItems, error } = await supabase
       .from('cart_items')
       .select(`
-        id,
-        user_id,
-        product_id,
-        quantity,
-        created_at,
-        updated_at,
-        products!inner (
-          id,
-          name,
-          price,
-          images,
-          stock,
-          is_active
-        )
+        *,
+        products!inner (*)
       `)
       .eq('user_id', user.id)
     
@@ -52,15 +50,18 @@ export async function GET(req: NextRequest) {
       )
     }
     
+    // Type assertion for cart items with products
+    const typedCartItems = cartItems as CartItemWithProduct[] | null
+    
     // Calculate cart totals
-    const subtotal = (cartItems || []).reduce((total, item) => {
+    const subtotal = (typedCartItems || []).reduce((total, item) => {
       return total + (Number(item.products.price) * item.quantity)
     }, 0)
     
-    const itemCount = (cartItems || []).reduce((total, item) => total + item.quantity, 0)
+    const itemCount = (typedCartItems || []).reduce((total, item) => total + item.quantity, 0)
     
     return NextResponse.json({
-      items: cartItems || [],
+      items: typedCartItems || [],
       subtotal,
       itemCount
     })
@@ -100,18 +101,21 @@ export async function POST(req: NextRequest) {
     // Check if product exists and is active
     const { data: product, error: productError } = await supabase
       .from('products')
-      .select('id, stock, is_active')
+      .select('*')
       .eq('id', validated.productId)
       .single()
     
-    if (productError || !product || !product.is_active) {
+    // Type assertion for product
+    const typedProduct = product as Product | null
+    
+    if (productError || !typedProduct || !typedProduct.is_active) {
       return NextResponse.json(
         { error: 'Product not found or inactive' },
         { status: 404 }
       )
     }
     
-    if (product.stock < validated.quantity) {
+    if (typedProduct.stock < validated.quantity) {
       return NextResponse.json(
         { error: 'Insufficient stock' },
         { status: 400 }
@@ -121,37 +125,40 @@ export async function POST(req: NextRequest) {
     // Check if item already exists in cart
     const { data: existingCartItem } = await supabase
       .from('cart_items')
-      .select('id, quantity')
+      .select('*')
       .eq('user_id', user.id)
       .eq('product_id', validated.productId)
       .single()
     
-    let cartItem
+    // Type assertion for existing cart item
+    const typedExistingCartItem = existingCartItem as CartItem | null
     
-    if (existingCartItem) {
+    let cartItem: CartItemWithProduct | null = null
+    
+    if (typedExistingCartItem) {
       // Update quantity
-      const newQuantity = existingCartItem.quantity + validated.quantity
+      const newQuantity = typedExistingCartItem.quantity + validated.quantity
       
-      if (newQuantity > product.stock) {
+      if (newQuantity > typedProduct.stock) {
         return NextResponse.json(
           { error: 'Total quantity exceeds available stock' },
           { status: 400 }
         )
       }
       
+      // Create update object - bypass TypeScript checking with 'as any'
+      const updateData = { 
+        quantity: newQuantity,
+        updated_at: new Date().toISOString()
+      } as any
+      
       const { data: updatedItem, error: updateError } = await supabase
         .from('cart_items')
-        .update({ quantity: newQuantity })
-        .eq('id', existingCartItem.id)
+        .update(updateData)
+        .eq('id', typedExistingCartItem.id)
         .select(`
           *,
-          products (
-            id,
-            name,
-            price,
-            images,
-            stock
-          )
+          products!inner (*)
         `)
         .single()
       
@@ -163,25 +170,23 @@ export async function POST(req: NextRequest) {
         )
       }
       
-      cartItem = updatedItem
+      cartItem = updatedItem as CartItemWithProduct
     } else {
-      // Create new cart item
+      // Create new cart item - bypass TypeScript checking with 'as any'
+      const insertData = {
+        user_id: user.id,
+        product_id: validated.productId,
+        quantity: validated.quantity,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      } as any
+      
       const { data: newItem, error: createError } = await supabase
         .from('cart_items')
-        .insert([{
-          user_id: user.id,
-          product_id: validated.productId,
-          quantity: validated.quantity
-        }])
+        .insert([insertData])
         .select(`
           *,
-          products (
-            id,
-            name,
-            price,
-            images,
-            stock
-          )
+          products!inner (*)
         `)
         .single()
       
@@ -193,7 +198,7 @@ export async function POST(req: NextRequest) {
         )
       }
       
-      cartItem = newItem
+      cartItem = newItem as CartItemWithProduct
     }
     
     return NextResponse.json(cartItem, { status: 201 })
