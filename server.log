@@ -1,0 +1,351 @@
+
+> ecommerce-app@0.1.0 dev
+> next dev --turbopack -H 0.0.0.0 -p 52280 --port 52280
+
+   ▲ Next.js 15.5.2 (Turbopack)
+   - Local:        http://localhost:52280
+   - Network:      http://0.0.0.0:52280
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ○ Compiling middleware ...
+ ✓ Compiled middleware in 584ms
+ ✓ Ready in 1930ms
+ ○ Compiling / ...
+ ✓ Compiled / in 6.5s
+ GET / 200 in 3084ms
+ GET / 200 in 3113ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET / 200 in 299ms
+ GET / 200 in 216ms
+ ⚠ Cross origin request detected from 52280.kooder.dev to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ ○ Compiling /auth/signin ...
+ ✓ Compiled /auth/signin in 764ms
+ GET /auth/signin 200 in 896ms
+ ○ Compiling /products ...
+ ✓ Compiled /products in 803ms
+ GET /products?category=Electronics 200 in 897ms
+ ○ Compiling /auth/signup ...
+ ✓ Compiled /auth/signup in 690ms
+ GET /auth/signup 200 in 841ms
+ GET /products?category=Electronics 200 in 128ms
+ GET /auth/signin 200 in 111ms
+ GET /auth/signin?redirect=%2Fdashboard 200 in 203ms
+ GET / 200 in 264ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 198ms
+ GET /auth/signin 200 in 71ms
+ GET /auth/signup 200 in 213ms
+ ✓ Compiled /favicon.ico in 464ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 787ms
+ GET /auth/signin 200 in 93ms
+ GET /auth/signup 200 in 96ms
+ GET /auth/signin 200 in 92ms
+ GET / 200 in 285ms
+ GET /auth/signin 200 in 165ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /auth/signin 200 in 210ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 263ms
+ GET / 200 in 276ms
+ GET /auth/signin 200 in 160ms
+   Reload env: .env.local
+ ✓ Compiled middleware in 130ms
+ ✓ Compiled in 0ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 291ms
+   Reload env: .env.local
+ ✓ Compiled middleware in 11ms
+ ✓ Compiled in 42ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 207ms
+   Reload env: .env.local
+ GET /auth/signin?redirect=%2Fadmin 200 in 220ms
+   Reload env: .env.local
+ ✓ Compiled in 45ms
+ ✓ Compiled middleware in 46ms
+ ✓ Compiled in 0ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 327ms
+ GET /auth/signup 200 in 119ms
+ GET /auth/signup 200 in 585ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 315ms
+ GET /?code=1dd4c535-5d0e-42bd-bf14-528f074f3905 200 in 347ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /auth/signin 200 in 103ms
+ GET /auth/signin 200 in 195ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 275ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 875ms
+ GET /dashboard 200 in 981ms
+ GET /dashboard 200 in 97ms
+ GET /dashboard 200 in 196ms
+ GET /dashboard 200 in 94ms
+ GET /dashboard 200 in 86ms
+ GET /dashboard 200 in 80ms
+ GET /dashboard 200 in 84ms
+ GET /dashboard 200 in 102ms
+ GET /dashboard 200 in 96ms
+ GET /products?category=Electronics 200 in 262ms
+ GET /products?category=Sports 200 in 97ms
+ GET /products?category=Home+&+Garden= 200 in 98ms
+ GET /products?category=Clothing 200 in 247ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?w=500&h=500&fit=crop&crop=center 404
+ GET /products?category=Electronics 200 in 88ms
+ GET / 200 in 90ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /auth/signin 200 in 112ms
+ GET /?error=access_denied&error_code=otp_expired&error_description=Email+link+is+invalid+or+has+expired 200 in 328ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /auth/signup 200 in 91ms
+ GET /auth/signin 200 in 182ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 283ms
+ GET /auth/signup 200 in 97ms
+ GET /?code=70c26b18-a2ee-47db-bf60-89054459d4f4 200 in 314ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /auth/signin 200 in 107ms
+ GET /auth/signin 200 in 93ms
+ ✓ Compiled in 1105ms
+ ✓ Compiled in 170ms
+ ⨯ ./src/components/layout/LayoutProvider.tsx:4:1
+Export AuthProvider doesn't exist in target module
+[0m [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mReactNode[39m } [36mfrom[39m [32m'react'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m { [33mAuthProvider[39m } [36mfrom[39m [32m'@/lib/hooks/useSupabaseAuth'[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 5 |[39m [36mimport[39m { [33mCartProvider[39m } [36mfrom[39m [32m'@/lib/context/cart-context'[39m[33m;[39m
+ [90m 6 |[39m [36mimport[39m [33mLayout[39m [36mfrom[39m [32m'./Layout'[39m[33m;[39m
+ [90m 7 |[39m[0m
+
+The export AuthProvider was not found in module [project]/src/lib/hooks/useSupabaseAuth.tsx [app-client] (ecmascript).
+Did you mean to import useSupabaseAuth?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import trace:
+  Server Component:
+    ./src/components/layout/LayoutProvider.tsx
+    ./src/app/layout.tsx
+
+
+
+./src/components/layout/LayoutProvider.tsx:4:1
+Export AuthProvider doesn't exist in target module
+[0m [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mReactNode[39m } [36mfrom[39m [32m'react'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m { [33mAuthProvider[39m } [36mfrom[39m [32m'@/lib/hooks/useSupabaseAuth'[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 5 |[39m [36mimport[39m { [33mCartProvider[39m } [36mfrom[39m [32m'@/lib/context/cart-context'[39m[33m;[39m
+ [90m 6 |[39m [36mimport[39m [33mLayout[39m [36mfrom[39m [32m'./Layout'[39m[33m;[39m
+ [90m 7 |[39m[0m
+
+The export AuthProvider was not found in module [project]/src/lib/hooks/useSupabaseAuth.tsx [app-ssr] (ecmascript).
+Did you mean to import useSupabaseAuth?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import trace:
+  Server Component:
+    ./src/components/layout/LayoutProvider.tsx
+    ./src/app/layout.tsx
+
+
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2.3s
+ GET /auth/signin 500 in 2574ms
+ GET /favicon.ico 500 in 56ms
+ ✓ Compiled in 1745ms
+ ✓ Compiled in 1442ms
+ ✓ Compiled /auth/signin in 46ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 336ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 736ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 895ms
+ GET /auth/signin 200 in 207ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 288ms
+ ✓ Compiled in 1524ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 1002ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 247ms
+ GET /auth/signin 200 in 59ms
+ GET /auth/signin 200 in 167ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 291ms
+ GET /auth/signin 200 in 217ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 267ms
+ ✓ Compiled /auth/signup in 65ms
+ GET /auth/signup 200 in 186ms
+ ✓ Compiled /dashboard in 31ms
+ GET /dashboard 200 in 97ms
+ GET /dashboard 200 in 123ms
+ GET /auth/signin 200 in 87ms
+ GET /auth/signin 200 in 92ms
+ GET /dashboard 200 in 84ms
+ GET /dashboard 200 in 101ms
+ GET /auth/signin 200 in 74ms
+ GET /auth/signin 200 in 97ms
+ ✓ Compiled in 223ms
+ GET /auth/signin 200 in 635ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 269ms
+ GET /auth/signup 200 in 111ms
+ GET /dashboard 200 in 98ms
+ GET /dashboard 200 in 90ms
+ GET /auth/signin 200 in 116ms
+ GET /auth/signin 200 in 91ms
+ GET /dashboard 200 in 85ms
+ GET /dashboard 200 in 90ms
+ GET /auth/signin 200 in 91ms
+ GET /auth/signin 200 in 88ms
+   Reload env: .env.local
+ ✓ Compiled in 45ms
+ ✓ Compiled middleware in 103ms
+ ✓ Compiled in 0ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 379ms
+   Reload env: .env.local
+ GET /auth/signin?redirect=%2Fadmin 200 in 208ms
+   Reload env: .env.local
+ ✓ Compiled in 44ms
+ ✓ Compiled middleware in 68ms
+ ✓ Compiled in 0ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 245ms
+   Reload env: .env.local
+ ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at createServerClient (../../src/createServerClient.ts:139:11)
+    at createClient (src/lib/supabase/middleware.ts:12:38)
+    at middleware (src/middleware.ts:8:46)
+  10 |   })
+  11 |
+> 12 |   const supabase = createServerClient<Database>(
+     |                                      ^
+  13 |     process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  14 |     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  15 |     {
+ ✓ Compiled middleware in 88ms
+ ✓ Compiled in 81ms
+ GET /auth/signin?redirect=%2Fadmin 404 in 3ms
+ ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at createServerClient (../../src/createServerClient.ts:139:11)
+    at createClient (src/lib/supabase/middleware.ts:12:38)
+    at middleware (src/middleware.ts:8:46)
+  10 |   })
+  11 |
+> 12 |   const supabase = createServerClient<Database>(
+     |                                      ^
+  13 |     process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  14 |     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  15 |     {
+ GET /auth/signin?redirect=%2Fadmin 404 in 4ms
+ ○ Compiling /_not-found/page ...
+ ✓ Compiled /_not-found/page in 865ms
+ ⨯ Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at createBrowserClient (../../src/createBrowserClient.ts:111:11)
+    at createClient (src/lib/supabase/client.ts:5:29)
+    at AuthProvider (src/lib/hooks/useSupabaseAuth.tsx:22:32)
+  3 |
+  4 | export function createClient() {
+> 5 |   return createBrowserClient<Database>(
+    |                             ^
+  6 |     process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  7 |     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  8 |   ) {
+  digest: '3861775112'
+}
+   Reload env: .env.local
+ ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at createServerClient (../../src/createServerClient.ts:139:11)
+    at createClient (src/lib/supabase/middleware.ts:12:38)
+    at middleware (src/middleware.ts:8:46)
+  10 |   })
+  11 |
+> 12 |   const supabase = createServerClient<Database>(
+     |                                      ^
+  13 |     process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  14 |     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  15 |     {
+ GET /auth/signin?redirect=%2Fadmin 404 in 17ms
+ ⨯ Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at createBrowserClient (../../src/createBrowserClient.ts:111:11)
+    at createClient (src/lib/supabase/client.ts:5:29)
+    at AuthProvider (src/lib/hooks/useSupabaseAuth.tsx:22:32)
+  3 |
+  4 | export function createClient() {
+> 5 |   return createBrowserClient<Database>(
+    |                             ^
+  6 |     process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  7 |     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  8 |   ) {
+  digest: '3861775112'
+}
+   Reload env: .env.local
+ ✓ Compiled middleware in 43ms
+ ✓ Compiled in 80ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 840ms
+   Reload env: .env.local
+ GET /auth/signin?redirect=%2Fadmin 200 in 247ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 200ms
+ GET /auth/signin 200 in 559ms
+ GET /auth/signup 200 in 250ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 322ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 221ms
+ GET /auth/signup 200 in 693ms
+ GET /auth/signup 200 in 780ms
+ ✓ Compiled /products in 45ms
+ GET /products?category=Electronics 200 in 291ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 324ms
+ GET /auth/signup 200 in 108ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 276ms
+   Reload env: .env.local
+ ✓ Compiled in 67ms
+ ✓ Compiled middleware in 57ms
+ ✓ Compiled in 0ms
+ GET /auth/signin?redirect=%2Fadmin 200 in 260ms
+ GET /auth/signup 200 in 571ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 326ms
+ GET /auth/signin 200 in 131ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 268ms
+ ✓ Compiled / in 34ms
+ GET /?code=e86bc12c-bbbf-4a85-8ca1-6a99191e73a1 200 in 351ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 273ms
+ GET /?code=e62a9725-61e9-4624-ba3f-3893378fcdad 200 in 298ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /auth/signin 200 in 109ms
+ GET /dashboard 200 in 109ms
+ GET /dashboard 200 in 105ms
+ GET /auth/signin 200 in 94ms
+ GET /auth/signin 200 in 92ms
+ ✓ Compiled in 156ms
+ GET /auth/signup 200 in 689ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 272ms
+ GET /?code=61133cfa-1d12-4c4c-a3b7-f14897b430d2 200 in 329ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 273ms
+ GET /auth/signin 200 in 88ms
+ GET /dashboard 200 in 101ms
+ GET /dashboard 200 in 165ms
+ GET / 200 in 395ms
+ GET /auth/signin 200 in 381ms
+ GET /auth/signin 200 in 96ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1544966503-7cc5ac882be2?w=500&h=500&fit=crop&crop=center 404
+ GET /products?category=Electronics 200 in 121ms
+ GET /products?category=Electronics 200 in 195ms
+ GET /products 200 in 103ms
