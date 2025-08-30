@@ -1,6 +1,7 @@
+// /src/app/api/auth/signin/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { supabaseAdmin } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/server'
 import { checkRateLimit } from '@/lib/rate-limiter'
 
 const signinSchema = z.object({
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
     // Validate input
     const validated = signinSchema.parse(body)
     
-    const supabase = supabaseAdmin
+    const supabase = createClient()
     
     // Sign in user with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
