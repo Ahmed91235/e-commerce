@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { supabaseAdmin } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/server'
 import { requireAuth } from '@/lib/auth'
 import { checkRateLimit } from '@/lib/rate-limiter'
 import type { Database } from '@/lib/supabase/database.types'
@@ -8,6 +8,8 @@ import type { Database } from '@/lib/supabase/database.types'
 // Use the Database types directly
 type CartItem = Database['public']['Tables']['cart_items']['Row']
 type Product = Database['public']['Tables']['products']['Row']
+type CartItemInsert = Database['public']['Tables']['cart_items']['Insert']
+type CartItemUpdate = Database['public']['Tables']['cart_items']['Update']
 
 // Type for cart item with joined product
 type CartItemWithProduct = CartItem & {
@@ -32,7 +34,7 @@ export async function GET(req: NextRequest) {
 
     // Get authenticated user
     const user = await requireAuth()
-    const supabase = supabaseAdmin
+    const supabase = await createClient()
     
     const { data: cartItems, error } = await supabase
       .from('cart_items')
@@ -93,7 +95,7 @@ export async function POST(req: NextRequest) {
 
     // Get authenticated user
     const user = await requireAuth()
-    const supabase = supabaseAdmin
+    const supabase = await createClient()
     
     const body = await req.json()
     const validated = cartItemSchema.parse(body)
@@ -146,14 +148,15 @@ export async function POST(req: NextRequest) {
         )
       }
       
-      // Create update object - bypass TypeScript checking with 'as any'
-      const updateData = { 
+      // Create update object with proper typing
+      const updateData: CartItemUpdate = { 
         quantity: newQuantity,
         updated_at: new Date().toISOString()
-      } as any
+      }
       
       const { data: updatedItem, error: updateError } = await supabase
         .from('cart_items')
+        // @ts-expect-error - Known Supabase TypeScript issue with update operations
         .update(updateData)
         .eq('id', typedExistingCartItem.id)
         .select(`
@@ -172,17 +175,18 @@ export async function POST(req: NextRequest) {
       
       cartItem = updatedItem as CartItemWithProduct
     } else {
-      // Create new cart item - bypass TypeScript checking with 'as any'
-      const insertData = {
+      // Create new cart item with proper typing
+      const insertData: CartItemInsert = {
         user_id: user.id,
         product_id: validated.productId,
         quantity: validated.quantity,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
-      } as any
+      }
       
       const { data: newItem, error: createError } = await supabase
         .from('cart_items')
+        // @ts-expect-error - Known Supabase TypeScript issue with insert operations
         .insert([insertData])
         .select(`
           *,
@@ -237,7 +241,7 @@ export async function DELETE(req: NextRequest) {
 
     // Get authenticated user
     const user = await requireAuth()
-    const supabase = supabaseAdmin
+    const supabase = await createClient()
     
     // Clear entire cart
     const { error } = await supabase

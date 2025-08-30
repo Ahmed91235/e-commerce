@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()  // Fixed: Added await
 
     // Sign out user
     const { error } = await supabase.auth.signOut()

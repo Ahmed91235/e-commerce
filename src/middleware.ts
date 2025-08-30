@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/middleware'
 import { checkRateLimit } from '@/lib/rate-limiter'
+import type { Database } from '@/lib/supabase/database.types'
+
+// Type for user profile
+type UserProfile = Database['public']['Tables']['users']['Row']
 
 export async function middleware(req: NextRequest) {
   // Handle Supabase Auth refresh
@@ -45,7 +49,10 @@ export async function middleware(req: NextRequest) {
         .eq('id', user.id)
         .single()
       
-      if (!profile || profile.role !== 'ADMIN') {
+      // Type assertion for profile
+      const typedProfile = profile as Pick<UserProfile, 'role'> | null
+      
+      if (!typedProfile || typedProfile.role !== 'ADMIN') {
         return NextResponse.redirect(new URL('/', req.url))
       }
     }

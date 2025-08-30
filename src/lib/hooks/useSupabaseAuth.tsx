@@ -1,9 +1,13 @@
 'use client'
 
-import { useState, useEffect, useContext, createContext, ReactNode } from 'react'
+import { useState, useEffect, useContext, createContext, ReactNode, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { User } from '@supabase/supabase-js'
 import { User as AppUser } from '@/lib/auth'
+import type { Database } from '@/lib/supabase/database.types'
+
+type UserRow = Database['public']['Tables']['users']['Row']
+type UserInsert = Database['public']['Tables']['users']['Insert']
 
 type AuthContextType = {
   user: AppUser | null
@@ -21,12 +25,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
 
-  const fetchUserProfile = async (authUser: User): Promise<AppUser | null> => {
+  const fetchUserProfile = useCallback(async (authUser: User): Promise<AppUser | null> => {
     try {
       console.log('Fetching profile for auth user:', authUser.id, authUser.email)
       
       // First, try to get the existing profile
-      let { data: profile, error } = await supabase
+      const { data: profile, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', authUser.id)
@@ -37,28 +41,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.log('Profile not found for user:', authUser.id, '- Creating new profile...')
           
           // Create the profile
+          const userInsert: UserInsert = {
+            id: authUser.id,
+            email: authUser.email!,
+            name: authUser.user_metadata?.name || authUser.email?.split('@')[0] || 'User',
+            role: 'USER'
+          }
+
+          
           const { data: newProfile, error: createError } = await supabase
             .from('users')
-            .insert({
-              id: authUser.id,
-              email: authUser.email!,
-              name: authUser.user_metadata?.name || authUser.email?.split('@')[0] || 'User',
-              role: 'USER'
-            })
+            // @ts-expect-error - Known Supabase TypeScript issue with insert operations
+            .insert(userInsert)
             .select()
             .single()
 
           if (createError) {
             console.error('Error creating user profile:', createError)
             // If insert fails, maybe it exists but with wrong permissions, try upsert
+            
             const { data: upsertProfile, error: upsertError } = await supabase
               .from('users')
-              .upsert({
-                id: authUser.id,
-                email: authUser.email!,
-                name: authUser.user_metadata?.name || authUser.email?.split('@')[0] || 'User',
-                role: 'USER'
-              })
+              // @ts-expect-error - Known Supabase TypeScript issue with upsert operations
+              .upsert(userInsert)
               .select()
               .single()
             
@@ -74,9 +79,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               }
             }
             
-            profile = upsertProfile
+            const typedUpsertProfile = upsertProfile as UserRow | null
+            if (typedUpsertProfile) {
+              return {
+                id: typedUpsertProfile.id,
+                email: typedUpsertProfile.email,
+                name: typedUpsertProfile.name,
+                role: typedUpsertProfile.role,
+                created_at: typedUpsertProfile.created_at
+              }
+            }
           } else {
-            profile = newProfile
+            const typedNewProfile = newProfile as UserRow | null
+            if (typedNewProfile) {
+              return {
+                id: typedNewProfile.id,
+                email: typedNewProfile.email,
+                name: typedNewProfile.name,
+                role: typedNewProfile.role,
+                created_at: typedNewProfile.created_at
+              }
+            }
           }
         } else {
           console.error('Error fetching user profile:', error)
@@ -91,7 +114,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
 
-      if (!profile) {
+      const typedProfile = profile as UserRow | null
+      
+      if (!typedProfile) {
         console.error('Profile is null for user:', authUser.id)
         return {
           id: authUser.id,
@@ -102,13 +127,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
 
-      console.log('Successfully fetched/created profile:', profile)
+      console.log('Successfully fetched/created profile:', typedProfile)
       return {
-        id: profile.id,
-        email: profile.email,
-        name: profile.name,
-        role: profile.role,
-        created_at: profile.created_at
+        id: typedProfile.id,
+        email: typedProfile.email,
+        name: typedProfile.name,
+        role: typedProfile.role,
+        created_at: typedProfile.created_at
       }
     } catch (error) {
       console.error('Unexpected error in fetchUserProfile:', error)
@@ -121,7 +146,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         created_at: authUser.created_at
       }
     }
-  }
+  }, [supabase])
 
   useEffect(() => {
     // Get initial session
@@ -166,7 +191,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     )
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [fetchUserProfile, supabase.auth])
 
   const signIn = async (email: string, password: string) => {
     try {
@@ -240,7 +265,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       return {}
-    } catch (error) {
+    } catch {
       return { error: 'An unexpected error occurred' }
     }
   }

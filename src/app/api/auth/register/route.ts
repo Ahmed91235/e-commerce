@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     // Validate input
     const validated = registerSchema.parse(body)
     
-    const supabase = createClient()
+    const supabase = await createClient()  // Fixed: Added await
     
     // Sign up user with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({

@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { supabaseAdmin } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth'
 import { checkRateLimit } from '@/lib/rate-limiter'
+import type { Database } from '@/lib/supabase/database.types'
+
+// Type definitions
+type Product = Database['public']['Tables']['products']['Row']
+type ProductInsert = Database['public']['Tables']['products']['Insert']
+type Review = Database['public']['Tables']['reviews']['Row']
 
 // Validation schemas
 const productCreateSchema = z.object({
@@ -47,7 +53,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url)
     const query = productQuerySchema.parse(Object.fromEntries(searchParams))
     
-    const supabase = supabaseAdmin
+    const supabase = await createClient()
     
     // Build query
     let productQuery = supabase
@@ -91,11 +97,15 @@ export async function GET(req: NextRequest) {
       )
     }
     
+    // Type the products with reviews
+    type ProductWithReviews = Product & { reviews?: { rating: number }[] }
+    const typedProducts = products as ProductWithReviews[] | null
+    
     // Calculate average rating for each product
-    const productsWithRating = (products || []).map(product => {
-      const ratings = product.reviews?.map(r => r.rating) || []
+    const productsWithRating = (typedProducts || []).map((product: ProductWithReviews) => {
+      const ratings = product.reviews?.map((r: { rating: number }) => r.rating) || []
       const averageRating = ratings.length > 0 
-        ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length 
+        ? ratings.reduce((sum: number, rating: number) => sum + rating, 0) / ratings.length 
         : 0
       
       return {
@@ -145,16 +155,12 @@ export async function POST(req: NextRequest) {
     }
 
     // Check admin authentication
-    try {
-      await requireAdmin()
-    } catch (error) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    await requireAdmin()
 
     const body = await req.json()
     const validated = productCreateSchema.parse(body)
     
-    const supabase = supabaseAdmin
+    const supabase = await createClient()
     
     // Check if slug already exists
     const { data: existingProduct } = await supabase
@@ -171,10 +177,10 @@ export async function POST(req: NextRequest) {
     }
     
     // Map camelCase to snake_case for database
-    const productData = {
+    const productData: ProductInsert = {
       name: validated.name,
       description: validated.description,
-      price: validated.price,
+      price: validated.price.toString(),
       stock: validated.stock,
       sku: validated.sku,
       category: validated.category,
@@ -188,8 +194,10 @@ export async function POST(req: NextRequest) {
     }
     
     // Create product
+    
     const { data: product, error: createError } = await supabase
       .from('products')
+      // @ts-expect-error - Known Supabase TypeScript issue with insert operations
       .insert([productData])
       .select()
       .single()

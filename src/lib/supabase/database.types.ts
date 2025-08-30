@@ -241,6 +241,9 @@ export type Database = {
         }
       }
     }
+    Views: {
+      [_ in never]: never
+    }
     Functions: {
       get_user_role: {
         Args: { user_id: string }
@@ -271,6 +274,9 @@ export type Database = {
       user_role: 'USER' | 'ADMIN'
       order_status: 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED' | 'REFUNDED'
       payment_status: 'PENDING' | 'COMPLETED' | 'FAILED' | 'REFUNDED'
+    }
+    CompositeTypes: {
+      [_ in never]: never
     }
   }
 }

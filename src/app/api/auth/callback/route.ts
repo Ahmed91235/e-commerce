@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const next = searchParams.get('next') ?? '/'
 
   if (code) {
-    const supabase = createClient()  // Fixed: Use createClient() instead of supabaseAdmin
+    const supabase = await createClient()  // Fixed: Added await
     
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     

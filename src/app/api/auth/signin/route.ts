@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     // Validate input
     const validated = signinSchema.parse(body)
     
-    const supabase = createClient()
+    const supabase = await createClient()  // Fixed: Added await
     
     // Sign in user with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({

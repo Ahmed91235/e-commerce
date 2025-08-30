@@ -3,6 +3,10 @@ import { createClient as createBrowserClient } from './supabase/client'
 import { z } from 'zod'
 import { cache } from 'react'
 import { redirect } from 'next/navigation'
+import type { Database } from './supabase/database.types'
+
+// Type for the user row from database
+type UserRow = Database['public']['Tables']['users']['Row']
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -28,7 +32,7 @@ export type AuthState = {
 
 // Server-side auth helpers
 export const getUser = cache(async (): Promise<User | null> => {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   try {
     const { data: { user: authUser }, error } = await supabase.auth.getUser()
@@ -48,12 +52,15 @@ export const getUser = cache(async (): Promise<User | null> => {
       return null
     }
 
+    // Type the profile properly
+    const typedProfile = profile as UserRow
+
     return {
-      id: profile.id,
-      email: profile.email,
-      name: profile.name,
-      role: profile.role,
-      created_at: profile.created_at
+      id: typedProfile.id,
+      email: typedProfile.email,
+      name: typedProfile.name,
+      role: typedProfile.role,
+      created_at: typedProfile.created_at
     }
   } catch (error) {
     console.error('Error getting user:', error)
@@ -100,7 +107,7 @@ export async function signIn(email: string, password: string) {
     return { data }
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { error: error.errors[0].message }
+      return { error: error.issues[0].message }
     }
     return { error: 'An unexpected error occurred' }
   }
@@ -129,7 +136,7 @@ export async function signUp(email: string, password: string, name: string) {
     return { data }
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { error: error.errors[0].message }
+      return { error: error.issues[0].message }
     }
     return { error: 'An unexpected error occurred' }
   }
