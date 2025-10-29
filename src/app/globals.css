@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
 :root {
+  /* Amazon Colors */
+  --amazon-dark-blue: #131921;
+  --amazon-light-blue: #232F3E;
+  --amazon-orange: #FF9900;
+  --amazon-light-orange: #FEBD69;
+  --amazon-link: #007185;
+  --amazon-link-hover: #C7511F;
+  
   /* Colors - Primary Palette */
   --color-primary-50: #f0f9ff;
   --color-primary-100: #e0f2fe;
@@ -90,6 +98,16 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-neutral-500);
+}
+
+/* Hide Scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Focus Styles */
